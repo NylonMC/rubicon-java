@@ -11,8 +11,14 @@ from .types import (
 # import and use ctypes.util to find it. We defer the ctypes.util
 # import for speed, since on Android (a performance-limited target),
 # avoiding an import can be a big win.
-_env_java_lib = os.environ.get('RUBICON_LIBRARY')
+#! Start NylonMC
+#_env_java_lib = os.environ.get('RUBICON_LIBRARY')
+from pathlib import Path
+dir_path = Path(os.path.dirname(os.path.realpath(__file__)))
+_env_java_lib = dir_path.parent.parent.parent.__str__() + os.sep + "native" + os.sep + "librubicon.so"
 if _env_java_lib:
+    print("Got Native: " + _env_java_lib)
+    #! End NylonMC
     java = cdll.LoadLibrary(_env_java_lib)
 else:
     from ctypes import util
